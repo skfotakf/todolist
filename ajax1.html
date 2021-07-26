@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #user,
+        #list-item-template{
+            display: none;
+        }
+        
+    </style>
+</head>
+<body>
+    <h2>ajax 테스트</h2>
+    <hr>
+    <section id="user">
+        <div class="list"></div>
+    </section>
+    <div id="list-item-template">
+        <p class="list-item-name"></p>
+        <p class="list-item-email"></p>
+        <hr>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" 
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
+    crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            //DOM 객체가 로딩된 후에 실행하라
+            getData();
+        })
+        function getData() {
+            const url= 'https://jsonplaceholder.typicode.com/users';
+            $.getJSON(url, {}, function(r) {
+                const $list = $(".list");
+                for (let i=0; i<r.length; i++){
+                    const data = r[i];
+                    const $item = createItem(data);
+                    $list.append($item);
+                }
+                //user
+                $("#user").show()
+            });
+        }
+
+        function createItem(data){
+            let $tmpl = $("#list-item-template").clone().removeAttr("id");
+            $tmpl.find(".list-item-name").html(data.name) 
+            $tmpl.find(".list-item-email").html(data.email) 
+            
+            return $tmpl;
+        }
+    </script>
+</body>
+</html>
