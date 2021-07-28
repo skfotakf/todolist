@@ -4,7 +4,7 @@ import TodoHead from './components/todoHead'
 import TodoList from './components/todoList';
 
 
-// import TodoCreate from './components/todoCreate';
+import TodoCreate from './components/todoCreate';
 import {createGlobalStyle} from 'styled-components';
 
 
@@ -20,9 +20,9 @@ function App() {
       <GlobalStyle />
       
       <TodoTemplate>
-      <TodoHead />
-      <TodoList />
-     
+        <TodoHead />
+        <TodoList />
+        <TodoCreate />
       </TodoTemplate>
     </>
   );

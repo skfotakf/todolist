@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import TodoItem from './todoItem';
+
 
 const TodoListBlock = styled.div`
     flex: 1;
@@ -9,14 +10,27 @@ const TodoListBlock = styled.div`
     overflow-y: auto;
 
     /* 사이즈 조정이 잘되는지 확인하는 스타일 */
-    /* background: #CCC; */
+    /*background: #CCC;*/
 
 `;
 
 function TodoList() {
+    const [yesorno, setYes] =useState(false);
+    const [localVisible, setLocalVisible] = useState(false);
+
+    useEffect(() =>{
+        if(localVisible && !yesorno){
+            setYes(true);
+            setTimeout(() =>setYes(false,250))
+        }
+        setLocalVisible(yesorno);
+    }, [localVisible,yesorno])
+
+    
+
     return(
         <TodoListBlock>
-           <TodoItem done text="테스트1" />
+           <TodoItem done={!yesorno} text="테스트1" />
            <TodoItem done text="테스트2" />
            <TodoItem done text="테스트3" />
            <TodoItem done text="테스트4" />
@@ -24,4 +38,4 @@ function TodoList() {
     )
 }
 
-export default TodoList
+export default TodoList;
