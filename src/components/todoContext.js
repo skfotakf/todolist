@@ -1,5 +1,5 @@
 //todoContext.js
-import React from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 
 const initialTodos = [
     {
@@ -20,3 +20,41 @@ const initialTodos = [
         text: '영어 말하기 연습'
     }
 ];
+
+function todoReducer(state,action) {
+    switch(action.type) {
+        case 'CREATE':
+            return state.concat(action.todo);
+        case 'TOGGLE':
+            return state.map(todo =>
+                todo.id === action.id? {...todo, done: !todo.done} : todo);
+        case 'REMOVE':
+            return state.filter(todo =>todo.id !==action.id);
+        default:
+            throw new Error(`action 핸들러가 없음: ${action.type}`)
+    }
+}
+
+
+const TodoStateContext = createContext();
+const TodoDispatchContext = createContext();
+
+export function TodoProvider({children}){
+    const [state, dispatch] = useReducer(todoReducer, initialTodos)
+    
+    return(
+        <TodoStateContext.Provider value={state}>
+            <TodoDispatchContext.Provider value={dispatch}>
+                {children}
+            </TodoDispatchContext.Provider>
+        </TodoStateContext.Provider>
+    )
+}
+
+export function useTodoState(){
+    return useContext(TodoStateContext)
+}
+
+export function useTodoDispatch(){
+    return useContext(TodoDispatchContext)
+}
